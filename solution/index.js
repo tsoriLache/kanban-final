@@ -28,5 +28,35 @@ function addTask({target}){
     }
 }
 
+function editTask({target}){
+    if(target.className==="task"){
+        document.querySelector("body").removeEventListener("dblclick",editTask);
+        editEl = createElement("input",[],[],{type:"text" ,id :"edit-task"});
+        editEl.value = target.innerText;
+        target.after(editEl);
+        editEl.focus();
+        target.remove();
+        editEl.addEventListener("blur",updateTask)
+    }
+}
+
+function updateTask({target},task=editEl.value){
+    if(task!==""){
+        const taskEl = createElement("li",[task],["task"])
+        document.getElementById("edit-task").after(taskEl);
+        target.remove();
+    }else{
+        alert("Empty Task")
+    }
+    document.querySelector("body").addEventListener("dblclick",editTask);
+}
+
+// function handleBodyEventListeners(event){
+//     if(event.target.className==="add-button") addTask(event);
+//     if(event.target.className==="task") editTask(event);
+// }
+
+
 document.querySelector("body").addEventListener("click",addTask);
+document.querySelector("body").addEventListener("dblclick",editTask);
   
