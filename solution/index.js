@@ -22,6 +22,8 @@ function addTask({target}){
             const taskEl = createElement("li",[task],["task"])
             target.closest('ul').append(taskEl);
             target.previousSibling.previousSibling.value="";
+        }else{
+            alert("Empty Task")
         }
     }
 }
