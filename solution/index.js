@@ -29,6 +29,8 @@ function addTask({target}){
         }else{
             alert("Empty Task")
         }
+        target.blur();
+
     }
 }
 
@@ -60,10 +62,6 @@ function moveTask({target}){
     document.addEventListener("keydown",whereToMove);
 }
 
-// function handleBodyEventListeners(event){
-//     if(event.target.className==="add-button") addTask(event);
-//     if(event.target.className==="task") editTask(event);
-// }
 function stopMove(){
     document.removeEventListener("keydown",whereToMove);
 }
@@ -83,4 +81,5 @@ function whereToMove({which,altKey}) {
 
 document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("dblclick",editTask);
-  
+
+
