@@ -20,7 +20,7 @@ function addTask({target}){
         const task = target.previousSibling.previousSibling.value;
         if(task!==""){
             const taskEl = createElement("li",[task],["task"])
-            target.closest('ul').append(taskEl);
+            target.after(taskEl);
             target.previousSibling.previousSibling.value="";
         }else{
             alert("Empty Task")
