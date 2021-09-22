@@ -1,3 +1,10 @@
+const tasks = {
+    "todo": [],
+    "inProgress": [],
+    "done": []
+}
+localStorage.setItem("tasks", JSON.stringify(tasks));
+
 function createElement(tagName, children = [], classes = [], attributes = {}, eventListeners = {}) {
     const el = document.createElement(tagName);
     // Children
