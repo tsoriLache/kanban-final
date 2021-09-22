@@ -23,7 +23,7 @@ function addTask({target}){
     if(target.className==="add-button"){
         const task = target.previousSibling.previousSibling.value;
         if(task!==""){
-            const taskEl = createElement("li",[task],["task"])
+            const taskEl = createElement("li",[task],["task"],{},{"mouseover": moveTask,"mouseout":stopMove})
             target.after(taskEl);
             target.previousSibling.previousSibling.value="";
         }else{
@@ -46,7 +46,7 @@ function editTask({target}){
 
 function updateTask({target},task=editEl.value){
     if(task!==""){
-        const taskEl = createElement("li",[task],["task"])
+        const taskEl = createElement("li",[task],["task"],{},{"mouseover": moveTask,"mouseout":stopMove})
         document.getElementById("edit-task").after(taskEl);
         target.remove();
     }else{
@@ -54,12 +54,32 @@ function updateTask({target},task=editEl.value){
     }
     document.querySelector("body").addEventListener("dblclick",editTask);
 }
+let moveTaskEl;
+function moveTask({target}){
+    moveTaskEl = target;
+    document.addEventListener("keydown",whereToMove);
+}
 
 // function handleBodyEventListeners(event){
 //     if(event.target.className==="add-button") addTask(event);
 //     if(event.target.className==="task") editTask(event);
 // }
+function stopMove(){
+    document.removeEventListener("keydown",whereToMove);
+}
 
+function whereToMove({which,altKey}) {
+    const keyCode = which;
+    if(keyCode===49&&altKey){
+        document.getElementById("to-do-list").append(moveTaskEl);
+    }
+    if(keyCode===50&&altKey){
+        document.getElementById("in-progress-list").append(moveTaskEl);
+    }
+    if(keyCode===51&&altKey){
+        document.getElementById("done-list").append(moveTaskEl);
+    }
+}
 
 document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("dblclick",editTask);
