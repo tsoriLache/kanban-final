@@ -12,6 +12,10 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
     for (const attr in attributes) {
       el.setAttribute(attr, attributes[attr]);
     }
+    // Event Listeners
+    for (const listener in eventListeners) {
+        el.addEventListener(listener, eventListeners[listener]);
+      }
     return el;
 }
 
