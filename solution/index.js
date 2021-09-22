@@ -90,3 +90,24 @@ document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("dblclick",editTask);
 
 
+function updateLocalStorageFromDOM(){
+    const tasksObj = {
+        "todo": [],
+        "inProgress": [],
+        "done": []
+    };
+    const tasksArray = document.querySelectorAll("li.task");
+    for(let task of tasksArray){
+        const list = task.parentElement.id;
+        if(list==="to-do-list"){
+            tasksObj.todo.push(task.innerText);
+        }
+        if(list==="in-progress-list"){
+            tasksObj.inProgress.push(task.innerText);
+        }
+        if(list==="done-list"){
+            tasksObj.done.push(task.innerText);
+        }
+    }
+    localStorage.setItem("tasks", JSON.stringify(tasksObj));
+}
