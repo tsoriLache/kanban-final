@@ -199,4 +199,3 @@ function updateLocalStorageFromDOM(){
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
 
-//not done
