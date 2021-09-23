@@ -2,28 +2,7 @@ const tasks = {
     "todo": [],
     "inProgress": [],
     "done": []
-}
-localStorage.setItem("tasks", JSON.stringify(tasks));
-
-function createElement(tagName, children = [], classes = [], attributes = {}, eventListeners = {}) {
-    const el = document.createElement(tagName);
-    // Children
-    for(const child of children) {
-        el.append(child);
     }
-    // Classes
-    for(const cls of classes) {
-      el.classList.add(cls);
-    }
-    // Attributes
-    for (const attr in attributes) {
-      el.setAttribute(attr, attributes[attr]);
-    }
-    // Event Listeners
-    for (const listener in eventListeners) {
-        el.addEventListener(listener, eventListeners[listener]);
-      }
-    return el;
 }
 
 function addTask({target}){
@@ -90,6 +69,29 @@ function whereToMove({which,altKey}) {
 document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("dblclick",editTask);
 
+
+//support functions:
+
+function createElement(tagName, children = [], classes = [], attributes = {}, eventListeners = {}) {
+    const el = document.createElement(tagName);
+    // Children
+    for(const child of children) {
+        el.append(child);
+    }
+    // Classes
+    for(const cls of classes) {
+      el.classList.add(cls);
+    }
+    // Attributes
+    for (const attr in attributes) {
+      el.setAttribute(attr, attributes[attr]);
+    }
+    // Event Listeners
+    for (const listener in eventListeners) {
+        el.addEventListener(listener, eventListeners[listener]);
+      }
+    return el;
+}
 // not needed at the moment
 function updateLocalStorageFromDOM(){
     const tasksObj = {
@@ -124,18 +126,5 @@ function serching(){
             li.classList.add("uuu")
             console.log(li)
         }
-    }
-}
-
-
-function listIdToObjKey(id){
-    if(id==="to-do-list"){
-        return "todo";
-    }
-    if(id==="in-progress-list"){
-        return "inProgress";
-    }
-    if(id==="done-list"){
-        return "done";
     }
 }
