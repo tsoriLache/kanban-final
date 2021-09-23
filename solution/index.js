@@ -74,13 +74,40 @@ function whereToMove({which,altKey}) {
     }
 }
 
+function search(){
+    const allTasks = document.querySelectorAll("li.task")
+    for(let task of allTasks){
+        if(task.innerText.includes(document.querySelector("#search").value)){
+            console.log(document.querySelector("#search").value)
+            task.classList.add("searched")
+            // console.log(task)
+        }else{
+            task.classList.add("not-searched")
+            // console.log(task)
+        }
+    }
+}
 
+function removeSearchClass() {
+    const allTasks = document.querySelectorAll("li.task")
+    for(let task of allTasks){
+        task.classList.remove("searched","not-searched")
+        console.log(task)
+    }
+}
+
+function handleSearchEvent(){
+    document.addEventListener("input",
+    ()=>{removeSearchClass();
+        search();
+        });
+}
 
 // Event listeners:
 document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("click",enableEdit);
 document.querySelector("body").addEventListener("dblclick",editTask);
-
+document.querySelector("#search").addEventListener("focus",handleSearchEvent);
 
 //support functions:
 
@@ -148,6 +175,9 @@ function updateList(key,id){
         document.getElementById(id).append(taskEl);
     }
 }
+
+
+
 //**********/ Not used yet /**********//
 
 // not needed at the moment
@@ -174,15 +204,3 @@ function updateLocalStorageFromDOM(){
 }
 
 //not done
-function searching(){
-    let allLi = document.querySelectorAll("li.task")
-    for(let li of allLi){
-        if(li.innerText.includes(document.querySelector("#search").value)){
-            li.classList.add("vvv")
-            console.log(li)
-        }else{
-            li.classList.add("uuu")
-            console.log(li)
-        }
-    }
-}
