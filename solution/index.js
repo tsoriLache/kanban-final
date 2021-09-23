@@ -16,11 +16,11 @@ function addTask({target}){
         const listId = target.parentElement.parentElement.id;   //try to find better js path
         if(task!==""){
             //create DOM element
-            const taskEl = createElement("li",[task],["task"],{contenteditable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
+            const taskEl = createElement("li",[task],["task"],{contenteditable:"false"},{"mouseover": moveTask,"mouseout":stopMove})
             target.parentElement.after(taskEl);
             //Update local storage
             const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-            tasksObj[listIdToObjKey(listId)].push(task);
+            tasksObj[listIdToObjKey(listId)].unshift(task);
             localStorage.setItem("tasks", JSON.stringify(tasksObj));
             //nullify add input
             target.previousSibling.previousSibling.value="";
@@ -29,6 +29,12 @@ function addTask({target}){
         }
         target.blur();
 
+    }
+}
+
+function enableEdit({target}){
+    if(target.className==="task"){
+        target.setAttribute("contenteditable",true)
     }
 }
 
@@ -68,7 +74,11 @@ function whereToMove({which,altKey}) {
     }
 }
 
+
+
+// Event listeners:
 document.querySelector("body").addEventListener("click",addTask);
+document.querySelector("body").addEventListener("click",enableEdit);
 document.querySelector("body").addEventListener("dblclick",editTask);
 
 
