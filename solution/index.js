@@ -94,6 +94,19 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
       }
     return el;
 }
+
+function listIdToObjKey(id){
+    if(id==="to-do-list"){
+        return "todo";
+    }
+    if(id==="in-progress-list"){
+        return "in-progress";
+    }
+    if(id==="done-list"){
+        return "done";
+    }
+}
+
 function updateEditToLocalStorage({target},taskText){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     const objKey = listIdToObjKey(target.parentElement.id);
