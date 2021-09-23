@@ -77,7 +77,7 @@ function whereToMove({which,altKey}) {
 function search(){
     const allTasks = document.querySelectorAll("li.task")
     for(let task of allTasks){
-        if(task.innerText.includes(document.querySelector("#search").value)){
+        if(task.innerText.toLowerCase().includes(document.querySelector("#search").value.toLowerCase())){
             console.log(document.querySelector("#search").value)
             task.classList.add("searched")
             // console.log(task)
