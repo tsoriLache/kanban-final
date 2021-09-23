@@ -28,10 +28,17 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
 
 function addTask({target}){
     if(target.className==="add-button"){
-        const task = target.previousSibling.previousSibling.value;
+        const task = target.previousSibling.previousSibling.value;  //try to find better js path
+        const listId = target.parentElement.parentElement.id;   //try to find better js path
         if(task!==""){
-            const taskEl = createElement("li",[task],["task"],{},{"mouseover": moveTask,"mouseout":stopMove})
+            //create DOM element
+            const taskEl = createElement("li",[task],["task"],{contenteditable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
             target.parentElement.after(taskEl);
+            //Update local storage
+            const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+            tasksObj[listIdToObjKey(listId)].push(task);
+            localStorage.setItem("tasks", JSON.stringify(tasksObj));
+            //nullify add input
             target.previousSibling.previousSibling.value="";
         }else{
             alert("Empty Task")
