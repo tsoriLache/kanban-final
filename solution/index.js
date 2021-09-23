@@ -90,7 +90,7 @@ function whereToMove({which,altKey}) {
 document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("dblclick",editTask);
 
-
+// not needed at the moment
 function updateLocalStorageFromDOM(){
     const tasksObj = {
         "todo": [],
@@ -113,7 +113,7 @@ function updateLocalStorageFromDOM(){
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
 
-
+//not done
 function serching(){
     let allLi = document.querySelectorAll("li.task")
     for(let li of allLi){
