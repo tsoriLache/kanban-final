@@ -1,8 +1,13 @@
-const tasks = {
+if(!JSON.parse(localStorage.getItem("tasks"))){
+    const tasks = {
     "todo": [],
-    "inProgress": [],
+    "in-progress": [],
     "done": []
     }
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}else{
+    const tasks = JSON.parse(localStorage.getItem("tasks"));
+    updateDOMfromLocalStorage(tasks)
 }
 
 function addTask({target}){
@@ -106,6 +111,22 @@ function moveInLocalStorage(listKey){
     tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
+
+function updateDOMfromLocalStorage(){
+    updateList("todo","to-do-list");
+    updateList("in-progress","in-progress-list")
+    updateList("done","done-list")
+}
+
+function updateList(key,id){
+    const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+    for(let task of tasksObj[key]){
+        const taskEl = createElement("li",[task],["task"],{contenteditable:"false"},{"mouseover": moveTask,"mouseout":stopMove})
+        document.getElementById(id).append(taskEl);
+    }
+}
+//**********/ Not used yet /**********//
+
 // not needed at the moment
 function updateLocalStorageFromDOM(){
     const tasksObj = {
