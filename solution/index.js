@@ -56,13 +56,18 @@ function stopMove(){
 function whereToMove({which,altKey}) {
     const keyCode = which;
     if(keyCode===49&&altKey){
-        document.getElementById("to-do-list").append(moveTaskEl);
+        moveInLocalStorage("todo")
+        document.getElementById("first-to-do-li").after(moveTaskEl);
     }
     if(keyCode===50&&altKey){
-        document.getElementById("in-progress-list").append(moveTaskEl);
+        moveInLocalStorage("in-progress")
+        document.getElementById("first-in-progress-li").after(moveTaskEl);
+
     }
     if(keyCode===51&&altKey){
-        document.getElementById("done-list").append(moveTaskEl);
+        moveInLocalStorage("done")
+        document.getElementById("first-done-li").after(moveTaskEl);
+
     }
 }
 
@@ -103,20 +108,20 @@ function updateLocalStorageFromDOM(){
     for(let task of tasksArray){
         const list = task.parentElement.id;
         if(list==="to-do-list"){
-            tasksObj.todo.push(task.innerText);
+            tasksObj.todo.unshift(task.innerText);
         }
         if(list==="in-progress-list"){
-            tasksObj.inProgress.push(task.innerText);
+            tasksObj.inProgress.unshift(task.innerText);
         }
         if(list==="done-list"){
-            tasksObj.done.push(task.innerText);
+            tasksObj.done.unshift(task.innerText);
         }
     }
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
 
 //not done
-function serching(){
+function searching(){
     let allLi = document.querySelectorAll("li.task")
     for(let li of allLi){
         if(li.innerText.includes(document.querySelector("#search").value)){
