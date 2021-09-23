@@ -64,16 +64,6 @@ function editTask({target}){
     }
 }
 
-function updateTask({target},task=editEl.value){
-    if(task!==""){
-        const taskEl = createElement("li",[task],["task"],{},{"mouseover": moveTask,"mouseout":stopMove})
-        document.getElementById("edit-task").after(taskEl);
-        target.remove();
-    }else{
-        alert("Empty Task")
-    }
-    document.querySelector("body").addEventListener("dblclick",editTask);
-}
 let moveTaskEl;
 function moveTask({target}){
     moveTaskEl = target;
