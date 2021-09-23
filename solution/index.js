@@ -31,15 +31,7 @@ function editTask({target}){
     if(target.className==="task"){
         document.querySelector("body").removeEventListener("dblclick",editTask);
         const task = target.innerText; 
-        target.addEventListener("blur",
-        function updateEditToLocalStorage({target},taskText=task){
-            const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-            const objKey = listIdToObjKey(target.parentElement.id);
-            const editTaskIndex = tasksObj[objKey].indexOf(taskText)
-            tasksObj[objKey][editTaskIndex]=target.innerText;
-            localStorage.setItem("tasks", JSON.stringify(tasksObj));
-            document.querySelector("body").addEventListener("dblclick",editTask);
-        })
+        target.addEventListener("blur",(event)=>updateEditToLocalStorage(event,task))
     }
 }
 
@@ -96,6 +88,23 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
         el.addEventListener(listener, eventListeners[listener]);
       }
     return el;
+}
+function updateEditToLocalStorage({target},taskText){
+    const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+    const objKey = listIdToObjKey(target.parentElement.id);
+    const editTaskIndex = tasksObj[objKey].indexOf(taskText)
+    tasksObj[objKey][editTaskIndex]=target.innerText;
+    localStorage.setItem("tasks", JSON.stringify(tasksObj));
+    document.querySelector("body").addEventListener("dblclick",editTask);
+    target.removeAttribute("contenteditable")
+}
+
+function moveInLocalStorage(listKey){
+    const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+    tasksObj[listKey].unshift(moveTaskEl.innerText)
+    const objKey = listIdToObjKey(moveTaskEl.parentElement.id);
+    tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
+    localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
 // not needed at the moment
 function updateLocalStorageFromDOM(){
