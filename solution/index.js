@@ -126,3 +126,16 @@ function serching(){
         }
     }
 }
+
+
+function listIdToObjKey(id){
+    if(id==="to-do-list"){
+        return "todo";
+    }
+    if(id==="in-progress-list"){
+        return "inProgress";
+    }
+    if(id==="done-list"){
+        return "done";
+    }
+}
