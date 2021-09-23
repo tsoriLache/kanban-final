@@ -111,3 +111,17 @@ function updateLocalStorageFromDOM(){
     }
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
+
+
+function serching(){
+    let allLi = document.querySelectorAll("li.task")
+    for(let li of allLi){
+        if(li.innerText.includes(document.querySelector("#search").value)){
+            li.classList.add("vvv")
+            console.log(li)
+        }else{
+            li.classList.add("uuu")
+            console.log(li)
+        }
+    }
+}
