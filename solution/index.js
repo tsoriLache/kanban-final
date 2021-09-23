@@ -51,12 +51,16 @@ function addTask({target}){
 function editTask({target}){
     if(target.className==="task"){
         document.querySelector("body").removeEventListener("dblclick",editTask);
-        editEl = createElement("input",[],[],{type:"text" ,id :"edit-task"});
-        editEl.value = target.innerText;
-        target.after(editEl);
-        editEl.focus();
-        target.remove();
-        editEl.addEventListener("blur",updateTask)
+        const task = target.innerText; 
+        target.addEventListener("blur",
+        function updateEditToLocalStorage({target},taskText=task){
+            const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+            const objKey = listIdToObjKey(target.parentElement.id);
+            const editTaskIndex = tasksObj[objKey].indexOf(taskText)
+            tasksObj[objKey][editTaskIndex]=target.innerText;
+            localStorage.setItem("tasks", JSON.stringify(tasksObj));
+            document.querySelector("body").addEventListener("dblclick",editTask);
+        })
     }
 }
 
