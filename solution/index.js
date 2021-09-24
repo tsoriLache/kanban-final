@@ -172,6 +172,49 @@ function updateList(key,id){
     }
 }
 
+// Drag and Drop:
+addDragAndDropEventListeners();
+let draggedEl;
+function dragStart() {
+    draggedEl = this.closest('li');
+}
+
+function dragEnter() {
+  this.classList.add('over');
+}
+
+function dragLeave() {
+  this.classList.remove('over');
+}
+
+function dragOver(e) {
+  e.preventDefault();
+}
+
+function dragDrop() {
+  this.after(draggedEl);
+  //ADD UPDATE TO LOCAL STORAGE!!!!
+  this.classList.remove('over');
+}
+
+function addDragAndDropEventListeners() {
+  const draggables = document.querySelectorAll('.draggable');
+  const dragListItems = document.querySelectorAll('.draggable-list li');
+
+  draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', dragStart);
+  });
+
+  dragListItems.forEach(item => {
+    item.addEventListener('dragover', dragOver);
+    item.addEventListener('drop', dragDrop);
+    item.addEventListener('dragenter', dragEnter);
+    item.addEventListener('dragleave', dragLeave);
+  });
+}
+
+
+
 
 
 //**********/ Not used yet /**********//
@@ -198,46 +241,3 @@ function updateLocalStorageFromDOM(){
     }
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
-
-// Drag and Drop:
-addDragAndDropEventListeners();
-let draggedEl;
-function dragStart() {
-    draggedEl = this.closest('li');
-  }
-  
-  function dragEnter() {
-    this.classList.add('over');
-  }
-  
-  function dragLeave() {
-    this.classList.remove('over');
-  }
-  
-  function dragOver(e) {
-    e.preventDefault();
-  }
-  
-  function dragDrop() {
-    this.after(draggedEl);
-    this.classList.remove('over');
-  }
-  
- 
-  
- 
-  function addDragAndDropEventListeners() {
-    const draggables = document.querySelectorAll('.draggable');
-    const dragListItems = document.querySelectorAll('.draggable-list li');
-  
-    draggables.forEach(draggable => {
-      draggable.addEventListener('dragstart', dragStart);
-    });
-  
-    dragListItems.forEach(item => {
-      item.addEventListener('dragover', dragOver);
-      item.addEventListener('drop', dragDrop);
-      item.addEventListener('dragenter', dragEnter);
-      item.addEventListener('dragleave', dragLeave);
-    });
-  }
