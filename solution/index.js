@@ -16,7 +16,7 @@ function addTask({target}){
         const listId = target.parentElement.parentElement.id;   //try to find better js path
         if(task!==""){
             //create DOM element
-            const taskEl = createElement("li",[task],["task"],{contenteditable:"false"},{"mouseover": moveTask,"mouseout":stopMove})
+            const taskEl = createElement("li",[task],["task","draggable"],{contenteditable:"false",draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
             target.parentElement.after(taskEl);
             //Update local storage
             const tasksObj = JSON.parse(localStorage.getItem("tasks"));
@@ -167,10 +167,53 @@ function updateDOMfromLocalStorage(){
 function updateList(key,id){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     for(let task of tasksObj[key]){
-        const taskEl = createElement("li",[task],["task"],{contenteditable:"false"},{"mouseover": moveTask,"mouseout":stopMove})
+        const taskEl = createElement("li",[task],["task","draggable"],{contenteditable:"false", draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
         document.getElementById(id).append(taskEl);
     }
 }
+
+// Drag and Drop:
+addDragAndDropEventListeners();
+let draggedEl;
+function dragStart() {
+    draggedEl = this.closest('li');
+}
+
+function dragEnter() {
+  this.classList.add('over');
+}
+
+function dragLeave() {
+  this.classList.remove('over');
+}
+
+function dragOver(e) {
+  e.preventDefault();
+}
+
+function dragDrop() {
+  this.after(draggedEl);
+  //ADD UPDATE TO LOCAL STORAGE!!!!
+  this.classList.remove('over');
+}
+
+function addDragAndDropEventListeners() {
+  const draggables = document.querySelectorAll('.draggable');
+  const dragListItems = document.querySelectorAll('.draggable-list li');
+
+  draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', dragStart);
+  });
+
+  dragListItems.forEach(item => {
+    item.addEventListener('dragover', dragOver);
+    item.addEventListener('drop', dragDrop);
+    item.addEventListener('dragenter', dragEnter);
+    item.addEventListener('dragleave', dragLeave);
+  });
+}
+
+
 
 
 
@@ -198,4 +241,3 @@ function updateLocalStorageFromDOM(){
     }
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
-
