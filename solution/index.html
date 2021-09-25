@@ -9,18 +9,20 @@
     <title>Tasks manager</title>
 </head>
 <body>
-    <h1 id="page-title">missions</h1>
-    <input type="text" id="search">
-    <span id="api-buttons">
-        <button id="save-button" class="api-button">save</button>
-        <button id="load-button" class="api-button">load</button>
-    </span>
+    <section id="heading-section">
+        <h1 id="page-title">missions</h1>
+        <span id="api-buttons">
+            <button id="save-btn" class="api-button">save</button>
+            <button id="load-btn" class="api-button">load</button>
+        </span>
+        <input type="text" id="search" placeholder="Search...">
+    </section>
     <section>
         <label for="to-do-list">To-Do: </label>
         <ul id="to-do-list" class="to-do-tasks draggable-list">
             <li id="first-to-do-li" class="first">
-            <input type="text" id="add-to-do-task">
-            <button id="submit-add-to-do" class="add-button">Add</button>
+            <input type="text" id="add-to-do-task" placeholder="Add task..">
+            <button id="submit-add-to-do" class="add-button">➕</button>
              </li>
         </ul>
     </section>
@@ -28,8 +30,8 @@
         <label for="in-progress-list">In Progress: </label>
         <ul id="in-progress-list" class="in-progress-tasks draggable-list">
             <li id="first-in-progress-li" class="first"> 
-            <input type="text" id="add-in-progress-task">
-            <button id="submit-add-in-progress" class="add-button">Add</button>
+            <input type="text" id="add-in-progress-task" placeholder="Add task..">
+            <button id="submit-add-in-progress" class="add-button">➕</button>
             </li>
         </ul>
     </section>
@@ -37,8 +39,8 @@
         <label for="done-list">Done: </label>
         <ul id="done-list" class="done-tasks draggable-list">
             <li id="first-done-li" class="first">
-            <input type="text" id="add-done-task">
-            <button id="submit-add-done" class="add-button">Add</button>
+            <input type="text" id="add-done-task" placeholder="Add task..">
+            <button id="submit-add-done" class="add-button">➕</button>
             </li>
         </ul>
     </section>
