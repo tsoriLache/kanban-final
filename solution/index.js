@@ -174,9 +174,11 @@ function updateList(key,id){
 
 // Drag and Drop:
 addDragAndDropEventListeners();
-let draggedEl;
+let draggedEl,draggedFromListId,draggedFirstIndex;
 function dragStart() {
     draggedEl = this.closest('li');
+    draggedFromListId = draggedEl.closest("ul").id;
+    draggedFirstIndex = findElementIndexInLocalStorage(draggedEl,listIdToObjKey(draggedFromListId))
 }
 
 function dragEnter() {
@@ -191,10 +193,29 @@ function dragOver(e) {
   e.preventDefault();
 }
 
-function dragDrop() {
+function dragDrop({target}) {
   this.after(draggedEl);
-  //ADD UPDATE TO LOCAL STORAGE!!!!
+  const objKey = listIdToObjKey(target.closest("ul").id);
+  const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+  let taskIndex = tasksObj[objKey].indexOf(target.innerText);
+  tasksObj[objKey].splice(taskIndex+1, 0, draggedEl.innerText);
+  deleteDraggedTaskFromLocalStorage(tasksObj,objKey,target)
   this.classList.remove('over');
+}
+
+function deleteDraggedTaskFromLocalStorage(tasksObj,dropObjKey,dropEl){
+    const dragObjKey = listIdToObjKey(draggedFromListId);
+    if(dragObjKey===dropObjKey&&draggedFirstIndex>findElementIndexInLocalStorage(dropEl,dropObjKey)){
+        tasksObj[dragObjKey].splice(tasksObj[dragObjKey].lastIndexOf(draggedEl.innerText),1)
+    }else{
+        tasksObj[dragObjKey].splice(tasksObj[dragObjKey].indexOf(draggedEl.innerText),1)
+    }
+    localStorage.setItem("tasks", JSON.stringify(tasksObj));
+}
+
+function findElementIndexInLocalStorage(element,objKey){
+    const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+    return tasksObj[objKey].indexOf(element.innerText);
 }
 
 function addDragAndDropEventListeners() {
