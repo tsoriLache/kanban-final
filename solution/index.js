@@ -247,13 +247,14 @@ function addDragAndDropEventListeners() {
 
 async function apiSync({target}){
     document.querySelector("#api-buttons").insertAdjacentHTML("afterbegin" ,'<div id ="loader" class="container"><span class="circle"></span><span class="circle"></span><span class="circle"></span> </div>');
-    if(target.id==="save-button"){
+    if(target.id==="save-btn"){
         await putApi();
     }
-    if(target.id==="load-button"){
+    if(target.id==="load-btn"){
+        deleteAllTasks();
         localStorage.setItem("tasks", JSON.stringify( (await getApi()).tasks));
-        updateDOMfromLocalStorage()
-        addDragAndDropEventListeners()
+        updateDOMfromLocalStorage();
+        addDragAndDropEventListeners();
     }
     document.querySelector("#loader").remove();
 
