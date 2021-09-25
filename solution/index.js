@@ -7,7 +7,7 @@ if(!JSON.parse(localStorage.getItem("tasks"))){
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }else{
     const tasks = JSON.parse(localStorage.getItem("tasks"));
-    updateDOMfromLocalStorage(tasks)
+    updateDOMfromLocalStorage()
 }
 
 function addTask({target}){
@@ -104,6 +104,7 @@ document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("click",enableEdit);
 document.querySelector("body").addEventListener("dblclick",editTask);
 document.querySelector("#search").addEventListener("focus",handleSearchEvent);
+document.querySelector("#api-buttons").addEventListener("click",apiSync)
 
 //support functions:
 
@@ -159,6 +160,7 @@ function moveInLocalStorage(listKey){
 }
 
 function updateDOMfromLocalStorage(){
+    deleteAllTasks();
     updateList("todo","to-do-list");
     updateList("in-progress","in-progress-list")
     updateList("done","done-list")
@@ -172,6 +174,12 @@ function updateList(key,id){
     }
 }
 
+function deleteAllTasks(){
+    const allTasks = document.querySelectorAll("li.task");
+    for( let task of allTasks){
+        task.remove();
+    }
+}
 // Drag and Drop:
 addDragAndDropEventListeners();
 let draggedEl,draggedFromListId,draggedFirstIndex;
@@ -235,7 +243,47 @@ function addDragAndDropEventListeners() {
 }
 
 
+//  API
 
+async function apiSync({target}){
+    document.querySelector("#api-buttons").insertAdjacentHTML("afterbegin" ,'<div id ="loader" class="container"><span class="circle"></span><span class="circle"></span><span class="circle"></span> </div>');
+    if(target.id==="save-button"){
+        await putApi();
+    }
+    if(target.id==="load-button"){
+        localStorage.setItem("tasks", JSON.stringify( (await getApi()).tasks));
+        updateDOMfromLocalStorage()
+        addDragAndDropEventListeners()
+    }
+    document.querySelector("#loader").remove();
+
+}
+async function putApi(){
+    const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+        const requestObj = {
+        "binId" : "614af9614021ac0e6c080cc1",
+        "tasks" : tasksObj
+        }
+        await fetch("https://json-bins.herokuapp.com/bin/614af9614021ac0e6c080cc1", {
+            method:"PUT",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify(requestObj)
+        })
+}
+
+async function getApi(){
+    const apiTask=await fetch("https://json-bins.herokuapp.com/bin/614af9614021ac0e6c080cc1", {
+        method:"GET",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+    })
+    return await apiTask.json();
+}
 
 
 //**********/ Not used yet /**********//
