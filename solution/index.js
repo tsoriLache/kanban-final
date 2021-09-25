@@ -32,17 +32,14 @@ function addTask({target}){
     }
 }
 
-function enableEdit({target}){
-    if(target.className==="task"){
-        target.setAttribute("contenteditable",true)
-    }
-}
-
 function editTask({target}){
-    if(target.className==="task"){
+    if(target.classList.contains("task")){
+        target.setAttribute("contenteditable",true);
+        target.click();
         document.querySelector("body").removeEventListener("dblclick",editTask);
         const task = target.innerText; 
-        target.addEventListener("blur",(event)=>updateEditToLocalStorage(event,task))
+        target.addEventListener("blur",(event)=>{updateEditToLocalStorage(event,task);
+            target.setAttribute("contenteditable",false)} )
     }
 }
 
@@ -101,10 +98,10 @@ function handleSearchEvent(){
 
 // Event listeners:
 document.querySelector("body").addEventListener("click",addTask);
-document.querySelector("body").addEventListener("click",enableEdit);
 document.querySelector("body").addEventListener("dblclick",editTask);
 document.querySelector("#search").addEventListener("focus",handleSearchEvent);
 document.querySelector("#api-buttons").addEventListener("click",apiSync)
+document.addEventListener("click",({target})=>target.focus())
 
 //support functions:
 
