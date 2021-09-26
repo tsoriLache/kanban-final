@@ -174,7 +174,6 @@ function updateEditToLocalStorage({target},taskText){
 function moveInLocalStorage(listKey){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     tasksObj[listKey].unshift(moveTaskEl.innerText)
-    console.log(moveTaskEl)
     const objKey = listIdToObjKey(moveTaskEl.closest("ul").id);
     tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
@@ -288,10 +287,9 @@ function addDragAndDropEventListeners() {
 //  API
 
 async function apiSync({target}){
-    document.querySelector("#api-buttons").insertAdjacentHTML("afterbegin" ,'<div id ="loader" class="container"><span class="circle"></span><span class="circle"></span><span class="circle"></span> </div>');
+    document.querySelector("#api-buttons").insertAdjacentHTML("afterbegin" ,'<div id ="loader" class="loader"><span class="circle"></span><span class="circle"></span><span class="circle"></span> </div>');
     if(target.id==="save-btn"){
-        await putApi();
-        console.log(localStorage.getItem("tasks"))
+            await putApi();
     }
     if(target.id==="load-btn"){
         deleteAllTasks();
