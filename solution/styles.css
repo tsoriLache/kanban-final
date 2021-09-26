@@ -21,9 +21,12 @@ body {
   align-items: center;
   justify-content:flex-start;
   height: 180vh;
-  margin: 10vh,10vh;
   font-family: 'Lato', sans-serif;
-  margin-bottom: 15vh;
+  margin-bottom: 20vh;
+}
+
+main{
+  margin-top: 15vh;
 }
 
 .default{
@@ -114,15 +117,14 @@ h1{
   justify-content: space-between;
   height: 5vh;
   width: 100%;
+  max-width: 70vw;
 }
 
 .task-p{
   display: flex;
   justify-self: start;
 }
-.searched{
-  background-color: rgba(157, 255, 0, 0.281);
-}
+
 
 .not-searched{
   display: none !important;
@@ -173,11 +175,11 @@ h1{
 }
 
 .task-btns{
-  display: none;
+  visibility: hidden;
 }
 
 .task:hover > .task-btns {
-  display: block;
+  visibility:visible;
   color: red;
 }
 
@@ -328,7 +330,7 @@ input[type=submit]:hover {
   display: block !important;
   position: absolute;
 }
-
+.transparent{background-color:transparent}
 .white{background-color: rgba(255, 255, 255, 0.966);}
 .orange{background-color: rgba(255, 166, 0, 0.541);}
 .yellow{background-color:rgba(255, 255, 0, 0.616);} 
