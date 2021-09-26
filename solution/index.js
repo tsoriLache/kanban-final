@@ -64,18 +64,19 @@ function stopMove(){
 function whereToMove({which,altKey}) {
     const keyCode = which;
     if(keyCode===49&&altKey){
-        moveInLocalStorage("todo")
+        deleteTaskFromLocalStorage()
         document.getElementById("first-to-do-li").after(moveTaskEl.closest("li"));
+        addTaskToLocalStorage("todo")
     }
     if(keyCode===50&&altKey){
-        moveInLocalStorage("in-progress")
+        deleteTaskFromLocalStorage()
         document.getElementById("first-in-progress-li").after(moveTaskEl.closest("li"));
-
+        addTaskToLocalStorage("in-progress")
     }
     if(keyCode===51&&altKey){
-        moveInLocalStorage("done")
+        deleteTaskFromLocalStorage()
         document.getElementById("first-done-li").after(moveTaskEl.closest("li"));
-
+        addTaskToLocalStorage("done")
     }
 }
 
@@ -170,12 +171,33 @@ function updateEditToLocalStorage({target},taskText){
     document.querySelector("body").addEventListener("dblclick",editTask);
     target.removeAttribute("contenteditable")
 }
+////////////////////////////////////////////////////////////////////////////
+// if(dragObjKey===dropObjKey&&draggedFirstIndex>findElementIndexInLocalStorage(dropElP,dropObjKey)){
+//     tasksObj[dragObjKey].splice(tasksObj[dragObjKey].lastIndexOf(draggedEl.firstChild.innerText),1)
+// }else{
+//     tasksObj[dragObjKey].splice(tasksObj[dragObjKey].indexOf(draggedEl.firstChild.innerText),1)
+// }
 
-function moveInLocalStorage(listKey){
+// function moveInLocalStorage(listKey,target){
+//     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+//     tasksObj[listKey].unshift(moveTaskEl.innerText)
+//     const objKey = listIdToObjKey(moveTaskEl.closest("ul").id);
+
+//     if(objKey===listKey&&draggedFirstIndex<findElementIndexInLocalStorage(target,listKey))
+
+//     tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
+//     localStorage.setItem("tasks", JSON.stringify(tasksObj));
+// }
+function deleteTaskFromLocalStorage(){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-    tasksObj[listKey].unshift(moveTaskEl.innerText)
     const objKey = listIdToObjKey(moveTaskEl.closest("ul").id);
     tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
+    localStorage.setItem("tasks", JSON.stringify(tasksObj));
+}
+
+function addTaskToLocalStorage(listKey){
+    const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+    tasksObj[listKey].unshift(moveTaskEl.innerText)
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
 
