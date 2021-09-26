@@ -52,17 +52,17 @@ h1{
 }
 
 .task{
-  display:table-row;
+  display:block;
   height: 5vh;
   width: 100%;
 }
 
 .searched{
-    display:block !important;
+  background-color: rgba(157, 255, 0, 0.281);
 }
 
 .not-searched{
-    display: none !important;
+  display: none !important;
 }
 
 .api-button,#delete-all-btn{
