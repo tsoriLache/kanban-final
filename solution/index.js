@@ -104,10 +104,18 @@ function handleSearchEvent(){
         });
 }
 
+function disableSearch(){
+    document.querySelector("#search").removeEventListener("focus",handleSearchEvent);
+    if(document.querySelector("#search").value===""){
+        removeSearchClass();    
+    }
+}
+
 // Event listeners:
 document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("dblclick",editTask);
 document.querySelector("#search").addEventListener("focus",handleSearchEvent);
+document.querySelector("#search").addEventListener("blur",disableSearch);
 document.querySelector("#api-buttons").addEventListener("click",apiSync)
 document.addEventListener("click",({target})=>target.focus())
 document.querySelector("#delete-all-btn").addEventListener("click",deleteAllTasks)
@@ -321,7 +329,7 @@ function deleteTask({target}){
     //local storage update
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     const objKey = listIdToObjKey(target.closest("ul").id);
-    tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
+    tasksObj[objKey].splice(tasksObj[objKey].indexOf(target.innerText),1)
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
     //delete from DOM
     target.closest("li").remove();
