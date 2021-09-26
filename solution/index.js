@@ -102,12 +102,15 @@ function handleSearchEvent(){
     ()=>{removeSearchClass();
         search();
         });
+    if(document.querySelector("#search").value===""){
+        const tasks = document.querySelectorAll("li.task")
+        tasks.forEach((task)=>task.classList.remove("close"));
+    }
 }
 
 function disableSearch(){
-    document.querySelector("#search").removeEventListener("focus",handleSearchEvent);
     if(document.querySelector("#search").value===""){
-        removeSearchClass();    
+        removeSearchClass();   
     }
 }
 
@@ -335,6 +338,21 @@ function deleteTask({target}){
     target.closest("li").remove();
 
 }
+addLabelEventListener();
+function addLabelEventListener(){
+    const labels=document.querySelectorAll(".label")
+    for(let label of labels){
+        label.addEventListener("click",toggleTaskList)
+    }
+}
+function toggleTaskList({target}) {
+    const tasks = document.querySelectorAll(`#${target.nextElementSibling.id} li.task`);
+    tasks.forEach((task)=>task.classList.toggle("close"));
+    
+//   content.classList.toggle("close");
+};
+
+
 
 //**********/ Not used yet /**********//
 

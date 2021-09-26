@@ -113,6 +113,10 @@ h1{
   color: red;
 }
 
+/* toggle list tasks */
+.close{
+  display: none !important;
+}
 
 /* Drag and Drop */
 
