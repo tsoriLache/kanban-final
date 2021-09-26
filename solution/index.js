@@ -171,23 +171,7 @@ function updateEditToLocalStorage({target},taskText){
     document.querySelector("body").addEventListener("dblclick",editTask);
     target.removeAttribute("contenteditable")
 }
-////////////////////////////////////////////////////////////////////////////
-// if(dragObjKey===dropObjKey&&draggedFirstIndex>findElementIndexInLocalStorage(dropElP,dropObjKey)){
-//     tasksObj[dragObjKey].splice(tasksObj[dragObjKey].lastIndexOf(draggedEl.firstChild.innerText),1)
-// }else{
-//     tasksObj[dragObjKey].splice(tasksObj[dragObjKey].indexOf(draggedEl.firstChild.innerText),1)
-// }
 
-// function moveInLocalStorage(listKey,target){
-//     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-//     tasksObj[listKey].unshift(moveTaskEl.innerText)
-//     const objKey = listIdToObjKey(moveTaskEl.closest("ul").id);
-
-//     if(objKey===listKey&&draggedFirstIndex<findElementIndexInLocalStorage(target,listKey))
-
-//     tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
-//     localStorage.setItem("tasks", JSON.stringify(tasksObj));
-// }
 function deleteTaskFromLocalStorage(){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     const objKey = listIdToObjKey(moveTaskEl.closest("ul").id);
