@@ -119,9 +119,12 @@ document.querySelector("body").addEventListener("click",addTask);
 document.querySelector("body").addEventListener("dblclick",editTask);
 document.querySelector("#search").addEventListener("focus",handleSearchEvent);
 document.querySelector("#search").addEventListener("blur",disableSearch);
-document.querySelector("#api-buttons").addEventListener("click",apiSync)
-document.addEventListener("click",({target})=>target.focus())
-document.querySelector("#delete-all-btn").addEventListener("click",deleteAllTasks)
+document.querySelector("#api-buttons").addEventListener("click",apiSync);
+document.addEventListener("click",({target})=>target.focus());
+document.querySelector("#delete-all-btn").addEventListener("click",deleteAllTasks);
+addLabelEventListener();
+document.querySelector("#view-option").addEventListener("click",viewOption);
+
 
 //support functions:
 
@@ -338,19 +341,23 @@ function deleteTask({target}){
     target.closest("li").remove();
 
 }
-addLabelEventListener();
+
 function addLabelEventListener(){
     const labels=document.querySelectorAll(".label")
     for(let label of labels){
         label.addEventListener("click",toggleTaskList)
     }
 }
+
 function toggleTaskList({target}) {
     const tasks = document.querySelectorAll(`#${target.nextElementSibling.id} li.task`);
     tasks.forEach((task)=>task.classList.toggle("close"));
-    
-//   content.classList.toggle("close");
 };
+
+function viewOption(){
+    document.querySelector("body > main").classList.toggle("default")
+    document.querySelector("body > main").classList.toggle("row-view")
+}
 
 
 
