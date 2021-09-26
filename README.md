@@ -6,7 +6,6 @@
 
 ![image](https://user-images.githubusercontent.com/89573774/134825280-015107b4-ec7f-4c18-8001-8da2299377e4.png)
 
-
 ## Basic functions you should know about:
 
 - `addTask` - Write the task in any list you want,and hit the + button. 
@@ -29,7 +28,7 @@ __Note__: The functions are not yet merge to the main branch.
 - In order to move the task with alt+number keys you need to put the mouse over the text and not all the task.(it caused problem to tests 4-5).
 - the page design should be good to small screens too, the problem is that the touch is not workig. don't worry i'm working on it
 
-
+# You are welcome to try the site: https://tsorilache.github.io/kanban-final/solution/
 
 ### If you have anything to add or comment I would love it.
 
