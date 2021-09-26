@@ -277,6 +277,7 @@ async function apiSync({target}){
     document.querySelector("#api-buttons").insertAdjacentHTML("afterbegin" ,'<div id ="loader" class="container"><span class="circle"></span><span class="circle"></span><span class="circle"></span> </div>');
     if(target.id==="save-btn"){
         await putApi();
+        console.log(localStorage.getItem("tasks"))
     }
     if(target.id==="load-btn"){
         deleteAllTasks();
@@ -289,18 +290,18 @@ async function apiSync({target}){
 }
 async function putApi(){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-        const requestObj = {
-        "binId" : "614af9614021ac0e6c080cc1",
-        "tasks" : tasksObj
-        }
-        await fetch("https://json-bins.herokuapp.com/bin/614af9614021ac0e6c080cc1", {
-            method:"PUT",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body : JSON.stringify(requestObj)
-        })
+    const requestObj = {
+    "binId" : "614af9614021ac0e6c080cc1",
+    "tasks" : tasksObj
+    }
+    await fetch("https://json-bins.herokuapp.com/bin/614af9614021ac0e6c080cc1", {
+        method:"PUT",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body : JSON.stringify(requestObj)
+    })
 }
 
 async function getApi(){
