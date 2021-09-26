@@ -11,6 +11,7 @@
 }
 
 body {
+  position:relative;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -69,6 +70,10 @@ h1{
   margin-right: 5vw;
 }
 
+#search{
+  width: 50%;
+}
+
 #view-option{
   display: flex;
   align-self: flex-end;
@@ -95,11 +100,17 @@ h1{
 }
 
 .task{
-  display:block;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
   height: 5vh;
   width: 100%;
 }
 
+.task-p{
+  display: flex;
+  justify-self: start;
+}
 .searched{
   background-color: rgba(157, 255, 0, 0.281);
 }
@@ -108,7 +119,7 @@ h1{
   display: none !important;
 }
 
-.api-button,#delete-all-btn,#view-option{
+.api-button,#delete-all-btn,#view-option,#submit-setting{
   background-color: #4CAF50; 
   border: none;
   color: white;
@@ -125,9 +136,14 @@ h1{
   border: 2px solid #4CAF50;
 }
 
-.api-button:hover ,#delete-all-btn:hover,#view-option:hover{
+.api-button:hover ,#delete-all-btn:hover,#view-option:hover,#submit-setting:hover{
   background-color: #4CAF50;
   color: white;
+}
+
+#submit-setting{
+  width: 50%;
+  margin-left: 50%;
 }
 
 #delete-all-btn{
@@ -136,7 +152,7 @@ h1{
   margin-right: 5vw;
 }
 
-.add-button,.delete-btn,#view-option{
+.add-button,.delete-btn,.additional-settings-btn,#view-option{
   background-color: transparent;
   border: none;
   color: rgb(238, 13, 13);
@@ -147,11 +163,11 @@ h1{
   font-size: 10px;
 }
 
-.delete-btn{
+.task-btns{
   display: none;
 }
 
-.task:hover > .delete-btn {
+.task:hover > .task-btns {
   display: block;
   color: red;
 }
@@ -232,3 +248,83 @@ h1{
   from {transform: translateX(0px)}
   to {transform: translateX(45px)}
 }
+
+
+
+/* additional settings form */
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+#additional-settings {
+  display: none;
+  width: 70%;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+.display-form{
+  display: block !important;
+  position: absolute;
+}
+
+.white{background-color: rgba(255, 255, 255, 0.966);}
+.orange{background-color: rgba(255, 166, 0, 0.541);}
+.yellow{background-color:rgba(255, 255, 0, 0.616);} 
+.green{background-color:rgba(11, 190, 11, 0.658);}
+.blue{background-color:rgba(0, 0, 255, 0.486);}
+.purple{background-color: rgba(185, 11, 185, 0.719);}
+.brown{background-color:rgba(138, 52, 52, 0.377);}
+.red{background-color: rgba(255, 0, 0, 0.966);}

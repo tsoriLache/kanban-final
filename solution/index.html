@@ -10,7 +10,7 @@
 </head>
 <body>
     <section id="heading-section">
-        <h1 id="page-title">missions</h1>
+        <h1 id="page-title" contenteditable="true">My Tasks:</h1>
         <div id="heading-buttons">
             <button id="view-option">👀</button>
             <span id="api-buttons">
@@ -50,6 +50,64 @@
             </ul>
         </section>
     </main>
+    
+    <section id="additional-settings">
+        <button id="exit-form">✖</button>
+        <form >
+            <div class="row">
+              <div class="col-25">
+                <label for="info">More info..</label>
+              </div>
+              <div class="col-75">
+                <input type="text" id="info" name="information" placeholder="elaborate on the task..">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-25">
+                <label for="color-select">Background Color</label>
+              </div>
+              <div class="col-75">
+                <select id="color-select" name="color:">
+                    <option value="white">⚪</option>
+                    <option value="orange">🟠</option>
+                    <option value="yellow">🟡</option>
+                    <option value="green">🟢</option>
+                    <option value="blue">🔵</option>
+                    <option value="purple">🟣</option>
+                    <option value="brown">🟤</option>
+                    <option value="red">🔴</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                  <label for="deadline-date">Date:</label>
+                </div>
+                <div class="col-75">
+                  <input type="date" id="deadline-date"  placeholder="dd/mm/yyyy">
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-25">
+                <label for="deadline-time">Time:</label>
+              </div>
+              <div class="col-75">
+                <input type="time" id="deadline-time"  placeholder="hh:mm">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-25">
+                <label for="note">Alert Notification</label>
+              </div>
+              <div class="col-75">
+                <textarea id="note" name="subject" placeholder="Write notification.." style="height:200px"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <input id="submit-setting"  value="Submit">
+            </div>
+            </form>
+    </section>
 </body>
 </html>
 
