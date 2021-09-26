@@ -14,8 +14,8 @@ function createTask(task){
     const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
     const additionalSettingsBtnEl = createElement("button",["🔧"],["additional-settings-btn"],{},{"click": openAdditionalSettings});
     const buttons = createElement("p",[additionalSettingsBtnEl,deleteBtnEl],["task-btns"])
-    const taskP = createElement("p",[task],["task-p"],{contenteditable:"false"},{"mouseover": moveTask,"mouseout":stopMove})
-    const taskEl = createElement("li",[taskP,buttons],["task","draggable"],{draggable:"true"})
+    const taskP = createElement("p",[task],["task-p"],{contenteditable:"false"})
+    const taskEl = createElement("li",[taskP,buttons],["task","draggable"],{draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
     return taskEl;
 }
 
@@ -43,6 +43,15 @@ function addTask({target}){
 }
 
 function editTask({target}){
+    if(target.classList.contains("task")){
+        const targetP = target.firstChild;
+        targetP.setAttribute("contenteditable",true);
+        targetP.click();
+        document.querySelector("body").removeEventListener("dblclick",editTask);
+        const task = targetP.innerText; 
+        targetP.addEventListener("blur",(event)=>{updateEditToLocalStorage(event,task);
+        targetP.setAttribute("contenteditable",false)} )
+    }
     if(target.classList.contains("task-p")){
         target.setAttribute("contenteditable",true);
         target.click();
@@ -55,7 +64,7 @@ function editTask({target}){
 
 let moveTaskEl;
 function moveTask({target}){
-    moveTaskEl = target;
+    moveTaskEl = target.closest("li").firstChild;
     document.addEventListener("keydown",whereToMove);
 }
 
@@ -85,9 +94,7 @@ function whereToMove({which,altKey}) {
 function search(){
     const allTasks = document.querySelectorAll("li.task")
     for(let task of allTasks){
-        if(task.firstChild.innerText.toLowerCase().includes(document.querySelector("#search").value.toLowerCase())){
-            task.classList.add("searched")
-        }else{
+        if(!task.firstChild.innerText.toLowerCase().includes(document.querySelector("#search").value.toLowerCase())){
             task.classList.add("not-searched")
         }
     }
@@ -96,7 +103,7 @@ function search(){
 function removeSearchClass() {
     const allTasks = document.querySelectorAll("li.task")
     for(let task of allTasks){
-        task.classList.remove("searched","not-searched")
+        task.classList.remove("not-searched")
     }
 }
 
@@ -176,7 +183,7 @@ function updateEditToLocalStorage({target},taskText){
 
 function deleteTaskFromLocalStorage(){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-    const objKey = listIdToObjKey(moveTaskEl.closest("ul").id);
+    const objKey = listIdToObjKey(moveTaskEl.parentElement.closest("ul").id);
     tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
