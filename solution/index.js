@@ -12,8 +12,10 @@ if(!JSON.parse(localStorage.getItem("tasks"))){
 
 function createTask(task){
     const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
+    const additionalSettingsBtnEl = createElement("button",["🔧"],["additional-settings-btn"],{},{"click": openAdditionalSettings});
+    const buttons = createElement("p",[additionalSettingsBtnEl,deleteBtnEl],["task-btns"])
     const taskP = createElement("p",[task],["task-p"],{contenteditable:"false"},{"mouseover": moveTask,"mouseout":stopMove})
-    const taskEl = createElement("li",[taskP,deleteBtnEl],["task","draggable"],{draggable:"true"})
+    const taskEl = createElement("li",[taskP,buttons],["task","draggable"],{draggable:"true"})
     return taskEl;
 }
 
@@ -99,7 +101,7 @@ function removeSearchClass() {
 }
 
 function handleSearchEvent(){
-    document.addEventListener("input",
+    document.querySelector("#search").addEventListener("input",
     ()=>{removeSearchClass();
         search();
         });
@@ -125,7 +127,7 @@ document.addEventListener("click",({target})=>target.focus());
 document.querySelector("#delete-all-btn").addEventListener("click",deleteAllTasks);
 addLabelEventListener();
 document.querySelector("#view-option").addEventListener("click",viewOption);
-
+document.getElementById("exit-form").addEventListener("click",exitForm);
 
 //support functions:
 
@@ -330,7 +332,12 @@ async function getApi(){
             "Content-Type": "application/json"
         },
     })
-    return await apiTask.json();
+    const apiData = await apiTask.json();
+    // if(!apiTask.ok){
+    //     const error = apiData[0];
+    //     throw Error(error.field+" "+error.message)
+    // }
+    return apiData;
 }
 
 //  Bonus features:
@@ -362,22 +369,47 @@ function viewOption(){
     document.querySelector("body > main").classList.toggle("default")
     document.querySelector("body > main").classList.toggle("row-view")
 }
+// additional settings functions:
 
-function alertNotificationToDoTask(date,time,notification){ //date format: dd/mm/yyyy ,time format: hh:mm 
-    //checkDateAndTimeFormat
-    const year = date.slice(6)
-    const month = date.slice(3,5)
-    const day = date.slice(0,2)
+function alertNotificationToDoTask(date,time,notification,taskEl){ //date format: yyyy-mm-dd ,time format: hh:mm 
+    const year = date.slice(0,4)
+    const month = date.slice(5,7)
+    const day = date.slice(8,10)
     let alertDate = new Date(`${year}-${month}-${day}T${time}`);
     let alertDateMil = alertDate.getTime();
     let currentTimeMil = new Date().getTime()
     let subtractMilliSecondsValue = alertDateMil - currentTimeMil;
     setTimeout(timeToAlert, subtractMilliSecondsValue);
     function timeToAlert() {
-        alert(notification);
+        alert(`Now is the Deadline of ${taskEl.firstChild.innerText}-\n your note:\n`+notification);
     }
 }
- 
+let changeSettingTask;
+function openAdditionalSettings({target}){
+    document.querySelector("#additional-settings").classList.add("display-form");
+    changeSettingTask = target.closest("li");
+}
+
+document.querySelector("#submit-setting").addEventListener("click",submitSetting);
+
+function submitSetting(){
+    changeSettingTask.setAttribute('data-info',document.getElementById("info").value);
+    const color = document.getElementById("color-select").value
+    changeSettingTask.classList.add(color);
+    changeSettingTask.setAttribute('data-color',color);
+    const DLDate = document.getElementById("deadline-date").value;
+    changeSettingTask.setAttribute('data-dl-date',DLDate);
+    const DLTime = document.getElementById("deadline-time").value;
+    changeSettingTask.setAttribute('data-dl-time',DLTime);
+    const notification = document.getElementById("note").value;
+    changeSettingTask.setAttribute('data-dl-note',notification);
+    alertNotificationToDoTask(DLDate,DLTime,notification,changeSettingTask);
+    exitForm()
+}
+ function exitForm(){
+     changeSettingTask = null;
+    document.querySelector("#additional-settings").classList.remove("display-form");
+ }
 
 //**********/ Not used yet /**********//
 
