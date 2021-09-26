@@ -102,6 +102,7 @@ document.querySelector("body").addEventListener("dblclick",editTask);
 document.querySelector("#search").addEventListener("focus",handleSearchEvent);
 document.querySelector("#api-buttons").addEventListener("click",apiSync)
 document.addEventListener("click",({target})=>target.focus())
+document.querySelector("#delete-all-btn").addEventListener("click",deleteAllTasks)
 
 //support functions:
 
