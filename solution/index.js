@@ -10,15 +10,22 @@ if(!JSON.parse(localStorage.getItem("tasks"))){
     updateDOMfromLocalStorage()
 }
 
+function createTask(task){
+    const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
+    const taskP = createElement("p",[task],["task-p"],{contenteditable:"false"},{"mouseover": moveTask,"mouseout":stopMove})
+    const taskEl = createElement("li",[taskP,deleteBtnEl],["task","draggable"],{draggable:"true"})
+    return taskEl;
+}
+
 function addTask({target}){
     if(target.className==="add-button"){
         const task = target.previousSibling.previousSibling.value;  //try to find better js path
         const listId = target.parentElement.parentElement.id;   //try to find better js path
         if(task!==""){
             //create DOM element
-            const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
-            const taskEl = createElement("li",[task,deleteBtnEl],["task","draggable"],{contenteditable:"false",draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
+            const taskEl = createTask(task);
             target.parentElement.after(taskEl);
+            addDragAndDropEventListeners();
             //Update local storage
             const tasksObj = JSON.parse(localStorage.getItem("tasks"));
             tasksObj[listIdToObjKey(listId)].unshift(task);
@@ -34,13 +41,13 @@ function addTask({target}){
 }
 
 function editTask({target}){
-    if(target.classList.contains("task")){
+    if(target.classList.contains("task-p")){
         target.setAttribute("contenteditable",true);
         target.click();
         document.querySelector("body").removeEventListener("dblclick",editTask);
         const task = target.innerText; 
         target.addEventListener("blur",(event)=>{updateEditToLocalStorage(event,task);
-            target.setAttribute("contenteditable",false)} )
+        target.setAttribute("contenteditable",false)} )
     }
 }
 
@@ -58,16 +65,16 @@ function whereToMove({which,altKey}) {
     const keyCode = which;
     if(keyCode===49&&altKey){
         moveInLocalStorage("todo")
-        document.getElementById("first-to-do-li").after(moveTaskEl);
+        document.getElementById("first-to-do-li").after(moveTaskEl.closest("li"));
     }
     if(keyCode===50&&altKey){
         moveInLocalStorage("in-progress")
-        document.getElementById("first-in-progress-li").after(moveTaskEl);
+        document.getElementById("first-in-progress-li").after(moveTaskEl.closest("li"));
 
     }
     if(keyCode===51&&altKey){
         moveInLocalStorage("done")
-        document.getElementById("first-done-li").after(moveTaskEl);
+        document.getElementById("first-done-li").after(moveTaskEl.closest("li"));
 
     }
 }
@@ -75,7 +82,7 @@ function whereToMove({which,altKey}) {
 function search(){
     const allTasks = document.querySelectorAll("li.task")
     for(let task of allTasks){
-        if(task.innerText.toLowerCase().includes(document.querySelector("#search").value.toLowerCase())){
+        if(task.firstChild.innerText.toLowerCase().includes(document.querySelector("#search").value.toLowerCase())){
             task.classList.add("searched")
         }else{
             task.classList.add("not-searched")
@@ -142,7 +149,7 @@ function listIdToObjKey(id){
 
 function updateEditToLocalStorage({target},taskText){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-    const objKey = listIdToObjKey(target.parentElement.id);
+    const objKey = listIdToObjKey(target.closest("ul").id);
     const editTaskIndex = tasksObj[objKey].indexOf(taskText)
     tasksObj[objKey][editTaskIndex]=target.innerText;
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
@@ -153,28 +160,34 @@ function updateEditToLocalStorage({target},taskText){
 function moveInLocalStorage(listKey){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     tasksObj[listKey].unshift(moveTaskEl.innerText)
-    const objKey = listIdToObjKey(moveTaskEl.parentElement.id);
+    console.log(moveTaskEl)
+    const objKey = listIdToObjKey(moveTaskEl.closest("ul").id);
     tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
 
 function updateDOMfromLocalStorage(){
-    deleteAllTasks();
     updateList("todo","to-do-list");
-    updateList("in-progress","in-progress-list")
-    updateList("done","done-list")
+    updateList("in-progress","in-progress-list");
+    updateList("done","done-list");
+    addDragAndDropEventListeners();
 }
 
 function updateList(key,id){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     for(let task of tasksObj[key]){
-        const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
-        const taskEl = createElement("li",[task,deleteBtnEl],["task","draggable"],{contenteditable:"false",draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove});
+        const taskEl = createTask(task);
         document.getElementById(id).append(taskEl);
     }
 }
 
 function deleteAllTasks(){
+    const tasks = {
+        "todo": [],
+        "in-progress": [],
+        "done": []
+        }
+    localStorage.setItem("tasks", JSON.stringify(tasks));
     const allTasks = document.querySelectorAll("li.task");
     for( let task of allTasks){
         task.remove();
@@ -186,7 +199,7 @@ let draggedEl,draggedFromListId,draggedFirstIndex;
 function dragStart() {
     draggedEl = this.closest('li');
     draggedFromListId = draggedEl.closest("ul").id;
-    draggedFirstIndex = findElementIndexInLocalStorage(draggedEl,listIdToObjKey(draggedFromListId))
+    draggedFirstIndex = findElementIndexInLocalStorage(draggedEl.firstChild,listIdToObjKey(draggedFromListId))
 }
 
 function dragEnter() {
@@ -205,25 +218,40 @@ function dragDrop({target}) {
   this.after(draggedEl);
   const objKey = listIdToObjKey(target.closest("ul").id);
   const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-  let taskIndex = tasksObj[objKey].indexOf(target.innerText);
-  tasksObj[objKey].splice(taskIndex+1, 0, draggedEl.innerText);
+  let taskIndex;
+  try{
+     taskIndex = tasksObj[objKey].indexOf(target.firstChild.innerText);
+  }catch{
+       taskIndex = -1;
+  }
+  tasksObj[objKey].splice(taskIndex+1, 0, draggedEl.firstChild.innerText);
   deleteDraggedTaskFromLocalStorage(tasksObj,objKey,target)
   this.classList.remove('over');
 }
 
 function deleteDraggedTaskFromLocalStorage(tasksObj,dropObjKey,dropEl){
     const dragObjKey = listIdToObjKey(draggedFromListId);
-    if(dragObjKey===dropObjKey&&draggedFirstIndex>findElementIndexInLocalStorage(dropEl,dropObjKey)){
-        tasksObj[dragObjKey].splice(tasksObj[dragObjKey].lastIndexOf(draggedEl.innerText),1)
+    let dropElP;
+    try{
+        dropElP = dropEl.firstChild;
+    }catch{
+        dropElP = dropEl;
+    }
+    if(dragObjKey===dropObjKey&&draggedFirstIndex>findElementIndexInLocalStorage(dropElP,dropObjKey)){
+        tasksObj[dragObjKey].splice(tasksObj[dragObjKey].lastIndexOf(draggedEl.firstChild.innerText),1)
     }else{
-        tasksObj[dragObjKey].splice(tasksObj[dragObjKey].indexOf(draggedEl.innerText),1)
+        tasksObj[dragObjKey].splice(tasksObj[dragObjKey].indexOf(draggedEl.firstChild.innerText),1)
     }
     localStorage.setItem("tasks", JSON.stringify(tasksObj));
 }
 
 function findElementIndexInLocalStorage(element,objKey){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
-    return tasksObj[objKey].indexOf(element.innerText);
+    try{
+            return tasksObj[objKey].indexOf(element.innerText);
+    }catch{
+        return -1;
+    }
 }
 
 function addDragAndDropEventListeners() {
