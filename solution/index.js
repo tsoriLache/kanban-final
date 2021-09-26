@@ -357,7 +357,21 @@ function viewOption(){
     document.querySelector("body > main").classList.toggle("row-view")
 }
 
-
+function alertNotificationToDoTask(date,time,notification){ //date format: dd/mm/yyyy ,time format: hh:mm 
+    //checkDateAndTimeFormat
+    const year = date.slice(6)
+    const month = date.slice(3,5)
+    const day = date.slice(0,2)
+    let alertDate = new Date(`${year}-${month}-${day}T${time}`);
+    let alertDateMil = alertDate.getTime();
+    let currentTimeMil = new Date().getTime()
+    let subtractMilliSecondsValue = alertDateMil - currentTimeMil;
+    setTimeout(timeToAlert, subtractMilliSecondsValue);
+    function timeToAlert() {
+        alert(notification);
+    }
+}
+ 
 
 //**********/ Not used yet /**********//
 
