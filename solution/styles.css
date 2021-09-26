@@ -103,6 +103,17 @@ h1{
   display: inline-block;
   font-size: 10px;
 }
+
+.delete-btn{
+  display: none;
+}
+
+.task:hover > .delete-btn {
+  display: block;
+  color: red;
+}
+
+
 /* Drag and Drop */
 
     .draggable-list {
