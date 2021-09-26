@@ -410,8 +410,12 @@ function submitSetting(){
     changeSettingTask.setAttribute('data-dl-time',DLTime);
     const notification = document.getElementById("note").value;
     changeSettingTask.setAttribute('data-dl-note',notification);
-    alertNotificationToDoTask(DLDate,DLTime,notification,changeSettingTask);
-    exitForm()
+    if(!DLDate||!DLTime){
+        exitForm()
+    }else{
+        alertNotificationToDoTask(DLDate,DLTime,notification,changeSettingTask);
+        exitForm()
+    }
 }
  function exitForm(){
      changeSettingTask = null;
