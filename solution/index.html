@@ -11,40 +11,45 @@
 <body>
     <section id="heading-section">
         <h1 id="page-title">missions</h1>
-        <span id="api-buttons">
-            <button id="save-btn" class="api-button">save</button>
-            <button id="load-btn" class="api-button">load</button>
-        </span>
-        <input type="text" id="search" placeholder="Search...">
-        <button id="delete-all-btn" >Delete all tasks</button>
+        <div id="heading-buttons">
+            <button id="view-option">👀</button>
+            <span id="api-buttons">
+                <button id="save-btn" class="api-button">save</button>
+                <button id="load-btn" class="api-button">load</button>
+            </span>
+            <input type="text" id="search" placeholder="Search...">
+            <button id="delete-all-btn" >Delete all tasks</button>
+        </div>
     </section>
-    <section>
-        <label for="to-do-list" class="label">To-Do: </label>
-        <ul id="to-do-list" class="to-do-tasks draggable-list">
-            <li id="first-to-do-li" class="first">
-            <input type="text" id="add-to-do-task" placeholder="Add task..">
-            <button id="submit-add-to-do" class="add-button">➕</button>
-             </li>
-        </ul>
-    </section>
-    <section >
-        <label for="in-progress-list" class="label">In Progress: </label>
-        <ul id="in-progress-list" class="in-progress-tasks draggable-list">
-            <li id="first-in-progress-li" class="first"> 
-            <input type="text" id="add-in-progress-task" placeholder="Add task..">
-            <button id="submit-add-in-progress" class="add-button">➕</button>
-            </li>
-        </ul>
-    </section>
-    <section >
-        <label for="done-list" class="label">Done: </label>
-        <ul id="done-list" class="done-tasks draggable-list">
-            <li id="first-done-li" class="first">
-            <input type="text" id="add-done-task" placeholder="Add task..">
-            <button id="submit-add-done" class="add-button">➕</button>
-            </li>
-        </ul>
-    </section>
+    <main class="default">
+        <section>
+            <label for="to-do-list" class="label">To-Do: </label>
+            <ul id="to-do-list" class="to-do-tasks draggable-list">
+                <li id="first-to-do-li" class="first">
+                <input type="text" id="add-to-do-task" placeholder="Add task..">
+                <button id="submit-add-to-do" class="add-button">➕</button>
+                 </li>
+            </ul>
+        </section>
+        <section >
+            <label for="in-progress-list" class="label">In Progress: </label>
+            <ul id="in-progress-list" class="in-progress-tasks draggable-list">
+                <li id="first-in-progress-li" class="first"> 
+                <input type="text" id="add-in-progress-task" placeholder="Add task..">
+                <button id="submit-add-in-progress" class="add-button">➕</button>
+                </li>
+            </ul>
+        </section>
+        <section >
+            <label for="done-list" class="label">Done: </label>
+            <ul id="done-list" class="done-tasks draggable-list">
+                <li id="first-done-li" class="first">
+                <input type="text" id="add-done-task" placeholder="Add task..">
+                <button id="submit-add-done" class="add-button">➕</button>
+                </li>
+            </ul>
+        </section>
+    </main>
 </body>
 </html>
 
