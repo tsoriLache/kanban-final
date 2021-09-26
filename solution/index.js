@@ -16,7 +16,8 @@ function addTask({target}){
         const listId = target.parentElement.parentElement.id;   //try to find better js path
         if(task!==""){
             //create DOM element
-            const taskEl = createElement("li",[task],["task","draggable"],{contenteditable:"false",draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
+            const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
+            const taskEl = createElement("li",[task,deleteBtnEl],["task","draggable"],{contenteditable:"false",draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
             target.parentElement.after(taskEl);
             //Update local storage
             const tasksObj = JSON.parse(localStorage.getItem("tasks"));
@@ -167,7 +168,8 @@ function updateDOMfromLocalStorage(){
 function updateList(key,id){
     const tasksObj = JSON.parse(localStorage.getItem("tasks"));
     for(let task of tasksObj[key]){
-        const taskEl = createElement("li",[task],["task","draggable"],{contenteditable:"false", draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove})
+        const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
+        const taskEl = createElement("li",[task,deleteBtnEl],["task","draggable"],{contenteditable:"false",draggable:"true"},{"mouseover": moveTask,"mouseout":stopMove});
         document.getElementById(id).append(taskEl);
     }
 }
@@ -284,6 +286,18 @@ async function getApi(){
     return await apiTask.json();
 }
 
+//  Bonus features:
+
+function deleteTask({target}){
+    //local storage update
+    const tasksObj = JSON.parse(localStorage.getItem("tasks"));
+    const objKey = listIdToObjKey(target.closest("ul").id);
+    tasksObj[objKey].splice(tasksObj[objKey].indexOf(moveTaskEl.innerText),1)
+    localStorage.setItem("tasks", JSON.stringify(tasksObj));
+    //delete from DOM
+    target.closest("li").remove();
+
+}
 
 //**********/ Not used yet /**********//
 
