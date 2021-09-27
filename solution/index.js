@@ -340,10 +340,7 @@ async function getApi(){
         },
     })
     const apiData = await apiTask.json();
-    // if(!apiTask.ok){
-    //     const error = apiData[0];
-    //     throw Error(error.field+" "+error.message)
-    // }
+    
     return apiData;
 }
 
@@ -422,27 +419,3 @@ function submitSetting(){
     document.querySelector("#additional-settings").classList.remove("display-form");
  }
 
-//**********/ Not used yet /**********//
-
-// not needed at the moment
-function updateLocalStorageFromDOM(){
-    const tasksObj = {
-        "todo": [],
-        "inProgress": [],
-        "done": []
-    };
-    const tasksArray = document.querySelectorAll("li.task");
-    for(let task of tasksArray){
-        const list = task.parentElement.id;
-        if(list==="to-do-list"){
-            tasksObj.todo.unshift(task.innerText);
-        }
-        if(list==="in-progress-list"){
-            tasksObj.inProgress.unshift(task.innerText);
-        }
-        if(list==="done-list"){
-            tasksObj.done.unshift(task.innerText);
-        }
-    }
-    localStorage.setItem("tasks", JSON.stringify(tasksObj));
-}
