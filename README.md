@@ -22,6 +22,7 @@ __Note__: The functions are not yet merge to the main branch.
 - `additional-settings` -with the additional settings you can decide the background color of the task,save more information and add notification to deadline(with date and time).
     in order to set it  Put the mouse over the task you want, then 'Wrench' button will appear you should click it.
  - `view options`In the top-right side there is eyes icon it anable you to change the layout of the tasks lists.
+ - `hide tasks` if you click on the list label it hides/shows the tasks.
 
 ## bugs /errors
 - The additional settings do not get save to the local storage so when you refrsh it will not be save.
