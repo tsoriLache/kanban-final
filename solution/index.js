@@ -10,6 +10,8 @@ if(!JSON.parse(localStorage.getItem("tasks"))){
     updateDOMfromLocalStorage()
 }
 
+//Tasks
+
 function createTask(task){
     const deleteBtnEl = createElement("button",["✖"],["delete-btn"],{},{"click": deleteTask});
     const additionalSettingsBtnEl = createElement("button",["🔧"],["additional-settings-btn"],{},{"click": openAdditionalSettings});
@@ -38,7 +40,6 @@ function addTask({target}){
             alert("Empty Task")
         }
         target.blur();
-
     }
 }
 
